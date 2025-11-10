@@ -1,7 +1,12 @@
+import os
 import sqlite3
 from datetime import datetime
 
 from flask import Flask, render_template, request, redirect, url_for
+# increase HF hub timeouts/retries to help unstable networks (can still fail on very flaky connections)
+os.environ.setdefault("HF_HUB_DOWNLOAD_RETRIES", "8")
+os.environ.setdefault("HF_HUB_DOWNLOAD_TIMEOUT", "300")
+
 from transformers import pipeline
 from newspaper import Article
 
@@ -87,10 +92,21 @@ def get_last_analyses(limit=5):
 # ---------------------------
 
 # Özetleme modeli (İlk sürüm: İngilizce haberler için)
-summarizer = pipeline(
-    "summarization",
-    model="facebook/bart-large-cnn"
-)
+# Try to load the large BART model; if downloading fails (network/timeouts),
+# fall back to a smaller summarization model to keep the app usable.
+try:
+    summarizer = pipeline(
+        "summarization",
+        model="facebook/bart-large-cnn"
+    )
+except Exception as e:
+    # print to console so user sees the cause when running locally
+    print("Warning: failed to load facebook/bart-large-cnn, falling back to a smaller model.")
+    print(repr(e))
+    summarizer = pipeline(
+        "summarization",
+        model="sshleifer/distilbart-cnn-12-6"
+    )
 
 # Duygu analizi modeli
 sentiment_model = pipeline(
