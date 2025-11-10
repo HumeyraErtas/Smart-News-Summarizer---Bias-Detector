@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1>Son Analizler</h1>
+
+<table class="history-table">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Tarih (UTC)</th>
+            <th>Kaynak tipi</th>
+            <th>Girdi</th>
+            <th>Özet (ilk 120 karakter)</th>
+            <th>Sentiment</th>
+            <th>Bias Skoru</th>
+            <th>Bias Label</th>
+        </tr>
+    </thead>
+    <tbody>
+    {% for row in rows %}
+        <tr>
+            <td>{{ row[0] }}</td>
+            <td>{{ row[1] }}</td>
+            <td>{{ row[2] }}</td>
+            <td>{{ row[3][:60] }}{% if row[3]|length > 60 %}...{% endif %}</td>
+            <td>{{ row[4][:120] }}{% if row[4]|length > 120 %}...{% endif %}</td>
+            <td>{{ row[5] }} ({{ "%.2f"|format(row[6]) }})</td>
+            <td>{{ row[7] }}</td>
+            <td>{{ row[8] }}</td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
+{% endblock %}
