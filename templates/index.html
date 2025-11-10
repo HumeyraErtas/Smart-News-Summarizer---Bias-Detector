@@ -1,0 +1,71 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1>Smart News Summarizer & Bias Detector</h1>
+
+{% if error_message %}
+<div class="error-box">
+    {{ error_message }}
+</div>
+{% endif %}
+
+<form method="POST" class="input-form">
+    <div class="form-group">
+        <label>Girdi Tipi:</label>
+        <label>
+            <input type="radio" name="input_type" value="url" checked>
+            URL
+        </label>
+        <label>
+            <input type="radio" name="input_type" value="text">
+            Metin
+        </label>
+    </div>
+
+    <div class="form-group">
+        <label>Haber URL'si:</label>
+        <input type="text" name="url" placeholder="https://...">
+    </div>
+
+    <div class="form-group">
+        <label>Veya haber metnini buraya yapıştır:</label>
+        <textarea name="raw_text" rows="8" placeholder="Haber metni..."></textarea>
+    </div>
+
+    <button type="submit" class="btn-primary">Analiz Et</button>
+</form>
+
+{% if result %}
+<div class="grid">
+    <div class="card">
+        <h2>📰 Haber Metni</h2>
+        <p class="source-info">
+            Kaynak: {{ result.source_type }} –
+            {{ result.source_input[:80] }}{% if result.source_input|length > 80 %}...{% endif %}
+        </p>
+        <div class="scrollable">
+            <pre>{{ result.full_text }}</pre>
+        </div>
+    </div>
+
+    <div class="card">
+        <h2>✍️ Özet</h2>
+        <p>{{ result.summary }}</p>
+
+        <h3>🔍 Bias Analizi</h3>
+        <p><strong>Sentiment label:</strong> {{ result.sentiment_label }}</p>
+        <p><strong>Sentiment score:</strong> {{ result.sentiment_score }}</p>
+        <p><strong>Bias label:</strong> {{ result.bias_label }}</p>
+
+        <h3>📊 Bias Skoru (0–100)</h3>
+        <canvas id="biasChart" width="300" height="200"></canvas>
+
+        <script type="text/javascript">
+            // @ts-nocheck
+            initializeBiasChart({{ result.bias_score }});
+        </script>
+    </div>
+</div>
+{% endif %}
+
+{% endblock %}
