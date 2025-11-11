@@ -1,122 +1,23 @@
-body {
-    font-family: Arial, sans-serif;
-    background: #f7f7fa;
-    margin: 0;
-    padding: 0;
-}
-
-.navbar {
-    background: #222;
-    color: #fff;
-    padding: 10px 20px;
+.info-bar {
     display: flex;
-    justify-content: space-between;
-}
-
-.navbar a {
-    color: #fff;
-    text-decoration: none;
-    font-weight: bold;
-}
-
-.container {
-    max-width: 1200px;
-    margin: 20px auto;
-    padding: 0 15px;
-}
-
-h1 {
-    margin-bottom: 20px;
-}
-
-.input-form {
-    background: #fff;
-    padding: 15px;
-    border-radius: 8px;
-    margin-bottom: 20px;
-    box-shadow: 0 2px 6px rgba(0,0,0,0.05);
-}
-
-.form-group {
-    margin-bottom: 10px;
-}
-
-.form-group label {
-    display: block;
-    margin-bottom: 4px;
-}
-
-textarea, input[type="text"] {
-    width: 100%;
-    padding: 8px;
-    border-radius: 4px;
-    border: 1px solid #ccc;
-    box-sizing: border-box;
-}
-
-.btn-primary {
-    background: #007bff;
-    color: #fff;
-    padding: 8px 16px;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-}
-
-.btn-primary:hover {
-    background: #0056b3;
-}
-
-.error-box {
-    background: #ffdddd;
-    color: #900;
-    border: 1px solid #f5c2c2;
-    padding: 10px;
-    border-radius: 6px;
-    margin-bottom: 15px;
-}
-
-.grid {
-    display: grid;
-    grid-template-columns: 1.1fr 0.9fr;
     gap: 20px;
-}
-
-.card {
-    background: #fff;
-    padding: 15px;
+    margin: 15px 0;
+    padding: 10px 12px;
+    background: #eef5ff;
     border-radius: 8px;
-    box-shadow: 0 2px 6px rgba(0,0,0,0.05);
-}
-
-.scrollable {
-    max-height: 400px;
-    overflow-y: auto;
-    background: #f1f1f1;
-    padding: 8px;
-    border-radius: 6px;
-}
-
-pre {
-    white-space: pre-wrap;
-    word-wrap: break-word;
-    margin: 0;
-}
-
-.history-table {
-    width: 100%;
-    border-collapse: collapse;
-    background: #fff;
-    border-radius: 8px;
-    overflow: hidden;
-}
-
-.history-table th, .history-table td {
-    border: 1px solid #ddd;
-    padding: 8px;
     font-size: 14px;
 }
 
-.history-table th {
-    background: #eee;
+.filter-form {
+    background: #fff;
+    padding: 10px 12px;
+    margin-bottom: 10px;
+    border-radius: 8px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.03);
+}
+
+.filter-form input[type="text"] {
+    width: auto;
+    display: inline-block;
+    margin: 0 8px 0 0;
 }
