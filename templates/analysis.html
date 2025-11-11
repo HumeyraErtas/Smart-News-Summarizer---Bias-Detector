@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1>Analiz Detayı #{{ row[0] }}</h1>
+
+<p><strong>Tarih (UTC):</strong> {{ row[1] }}</p>
+<p><strong>Kaynak tipi:</strong> {{ row[2] }}</p>
+<p><strong>Girdi:</strong> {{ row[3] }}</p>
+
+<div class="grid">
+    <div class="card">
+        <h2>✍️ Özet</h2>
+        <p>{{ row[4] }}</p>
+    </div>
+
+    <div class="card">
+        <h2>🔍 Sentiment & Bias</h2>
+        <p><strong>Sentiment label:</strong> {{ row[5] }}</p>
+        <p><strong>Sentiment score:</strong> {{ "%.3f"|format(row[6]) }}</p>
+        <p><strong>Bias skoru:</strong> {{ row[7] }}</p>
+        <p><strong>Bias label:</strong> {{ row[8] }}</p>
+
+        <h3>📊 Skor Grafiği</h3>
+        <canvas id="detailChart" width="300" height="200"></canvas>
+
+        <script>
+            const detailCtx = document.getElementById('detailChart').getContext('2d');
+            const biasScore = {{ row[7] }};
+            const sentimentScore = {{ "%.3f"|format(row[6]) }};
+
+            new Chart(detailCtx, {
+                type: 'bar',
+                data: {
+                    labels: ['Bias (0-100)', 'Sentiment (0-1)'],
+                    datasets: [{
+                        label: 'Skorlar',
+                        data: [biasScore, sentimentScore],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            suggestedMax: 100
+                        }
+                    }
+                }
+            });
+        </script>
+    </div>
+</div>
+
+<p><a href="{{ url_for('history') }}">← Geçmişe dön</a></p>
+
+{% endblock %}

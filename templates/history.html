@@ -3,6 +3,15 @@
 {% block content %}
 <h1>Son Analizler</h1>
 
+<form method="GET" class="filter-form">
+    <label>Sentiment filtre (örn. POSITIVE, NEGATIVE, NEUTRAL):</label>
+    <input type="text" name="sentiment" value="{{ sentiment_filter or '' }}">
+    <button type="submit" class="btn-primary">Filtrele</button>
+    {% if sentiment_filter %}
+        <a href="{{ url_for('history') }}">Filtreyi temizle</a>
+    {% endif %}
+</form>
+
 <table class="history-table">
     <thead>
         <tr>
@@ -13,7 +22,7 @@
             <th>Özet (ilk 120 karakter)</th>
             <th>Sentiment</th>
             <th>Bias Skoru</th>
-            <th>Bias Label</th>
+            <th>Detay</th>
         </tr>
     </thead>
     <tbody>
@@ -26,7 +35,7 @@
             <td>{{ row[4][:120] }}{% if row[4]|length > 120 %}...{% endif %}</td>
             <td>{{ row[5] }} ({{ "%.2f"|format(row[6]) }})</td>
             <td>{{ row[7] }}</td>
-            <td>{{ row[8] }}</td>
+            <td><a href="{{ url_for('analysis_detail', analysis_id=row[0]) }}">Gör</a></td>
         </tr>
     {% endfor %}
     </tbody>

@@ -36,6 +36,11 @@
 </form>
 
 {% if result %}
+<div class="info-bar">
+    <span><strong>Dil tahmini:</strong> {{ result.language }}</span>
+    <span><strong>Metin uzunluğu:</strong> {{ result.text_length }} karakter</span>
+</div>
+
 <div class="grid">
     <div class="card">
         <h2>📰 Haber Metni</h2>
@@ -60,9 +65,30 @@
         <h3>📊 Bias Skoru (0–100)</h3>
         <canvas id="biasChart" width="300" height="200"></canvas>
 
-        <script type="text/javascript">
-            // @ts-nocheck
-            initializeBiasChart({{ result.bias_score }});
+        <script>
+            const biasScore = {{ result.bias_score }};
+            const ctx = document.getElementById('biasChart').getContext('2d');
+
+            new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ['Bias Skoru'],
+                    datasets: [{
+                        label: 'Bias',
+                        data: [biasScore],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    indexAxis: 'y',
+                    scales: {
+                        x: {
+                            min: 0,
+                            max: 100
+                        }
+                    }
+                }
+            });
         </script>
     </div>
 </div>
